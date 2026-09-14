@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Satyam Srivastava — Backend Engineer, Payments Infrastructure</title>
+<meta name="description" content="Backend engineer building payments infrastructure. Mandate and presentment rails, distributed batch processing, Python and Django.">
+
+<!-- TODO: replace with your real URL once the site is live -->
+<meta property="og:title" content="Satyam Srivastava — Backend Engineer">
+<meta property="og:description" content="Backend engineer building payments infrastructure.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#14202E;
+  --ink-soft:#4A5A6B;
+  --ink-faint:#8695A3;
+  --paper:#F7F8F6;
+  --paper-deep:#EDEFEA;
+  --rule:#D8DCD6;
+  --cleared:#1F6B4A;
+  --flag:#A63D2F;
+
+  --measure:66ch;
+  --gap:clamp(3.5rem, 8vw, 7rem);
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Source Serif 4",Georgia,serif;
+  font-size:clamp(1rem,0.96rem + 0.2vw,1.0625rem);
+  line-height:1.66;
+  font-synthesis:none;
+}
+h1,h2,h3,.mono{font-family:Archivo,"Helvetica Neue",Arial,sans-serif}
+
+a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule);transition:border-color .15s}
+a:hover{border-color:var(--ink)}
+a:focus-visible{outline:2px solid var(--cleared);outline-offset:3px;border-radius:2px}
+
+.wrap{
+  width:min(100% - 2.5rem, 62rem);
+  margin-inline:auto;
+}
+.col{max-width:var(--measure)}
+
+/* ---------- hero ---------- */
+
+header{padding:clamp(4rem,12vh,8rem) 0 0}
+
+h1{
+  font-size:clamp(2.1rem,1.4rem + 3.2vw,3.6rem);
+  font-weight:700;
+  letter-spacing:-0.028em;
+  line-height:1.02;
+  margin:0 0 1.1rem;
+}
+.lede{
+  font-size:clamp(1.1rem,1.02rem + 0.4vw,1.32rem);
+  line-height:1.55;
+  color:var(--ink-soft);
+  margin:0 0 2.6rem;
+  max-width:44ch;
+}
+.lede strong{color:var(--ink);font-weight:600}
+
+/* the mandate lifecycle — a genuine sequence, so it earns the stepped treatment */
+
+.cycle{
+  border-top:1px solid var(--ink);
+  border-bottom:1px solid var(--rule);
+  padding:1.5rem 0 1.6rem;
+  margin:0 0 1.25rem;
+}
+.cycle-label{
+  font-family:Archivo,sans-serif;
+  font-size:.8rem;
+  font-weight:500;
+  color:var(--ink-faint);
+  margin:0 0 1.1rem;
+  letter-spacing:.01em;
+}
+.stages{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.55rem 0;
+  align-items:center;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+.stages li{
+  font-family:Archivo,sans-serif;
+  font-size:clamp(.82rem,.78rem + .18vw,.95rem);
+  font-weight:600;
+  letter-spacing:-0.005em;
+  display:flex;
+  align-items:center;
+  gap:.55rem;
+  opacity:0;
+  animation:step .5s ease forwards;
+}
+.stages li::before{
+  content:"";
+  width:7px;height:7px;
+  border-radius:50%;
+  background:var(--cleared);
+  flex:none;
+}
+.stages li:not(:last-child)::after{
+  content:"";
+  width:clamp(.9rem,2.5vw,2.2rem);
+  height:1px;
+  background:var(--rule);
+  margin:0 .55rem;
+}
+.stages li:nth-child(1){animation-delay:.15s}
+.stages li:nth-child(2){animation-delay:.32s}
+.stages li:nth-child(3){animation-delay:.49s}
+.stages li:nth-child(4){animation-delay:.66s}
+.stages li:nth-child(5){animation-delay:.83s}
+@keyframes step{to{opacity:1}}
+
+.cycle-note{
+  font-size:.95rem;
+  color:var(--ink-soft);
+  margin:0;
+}
+.cycle-note b{color:var(--cleared);font-weight:600;font-family:Archivo,sans-serif;font-size:.92rem}
+
+.links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:1.4rem;
+  margin:2.2rem 0 0;
+  font-family:Archivo,sans-serif;
+  font-size:.94rem;
+  font-weight:500;
+}
+
+/* ---------- sections ---------- */
+
+section{padding:var(--gap) 0 0}
+h2{
+  font-size:clamp(1.02rem,1rem + .18vw,1.12rem);
+  font-weight:600;
+  letter-spacing:-0.008em;
+  color:var(--ink-faint);
+  margin:0 0 2.2rem;
+  padding-bottom:.7rem;
+  border-bottom:1px solid var(--rule);
+}
+h3{
+  font-size:clamp(1.22rem,1.1rem + .5vw,1.45rem);
+  font-weight:600;
+  letter-spacing:-0.018em;
+  line-height:1.22;
+  margin:0 0 .5rem;
+}
+p{margin:0 0 1.15rem}
+p:last-child{margin-bottom:0}
+
+.role{margin-bottom:3.4rem}
+.role:last-child{margin-bottom:0}
+.role-head{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:baseline;
+  gap:.4rem .9rem;
+  margin:0 0 1rem;
+}
+.role-org{
+  font-family:Archivo,sans-serif;
+  font-size:1.06rem;
+  font-weight:600;
+  letter-spacing:-0.012em;
+}
+.role-meta{
+  font-family:Archivo,sans-serif;
+  font-size:.86rem;
+  font-weight:400;
+  color:var(--ink-faint);
+}
+
+/* work entries */
+
+.entry{
+  padding:1.9rem 0;
+  border-top:1px solid var(--rule);
+}
+.entry:first-of-type{border-top:1px solid var(--ink)}
+.entry p{color:var(--ink-soft);max-width:var(--measure)}
+.entry p strong{color:var(--ink);font-weight:600}
+
+.figures{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.5rem;
+  margin:1.1rem 0 0;
+  padding:0;
+  list-style:none;
+}
+.figures li{
+  font-family:Archivo,sans-serif;
+  font-size:.82rem;
+  font-weight:500;
+  color:var(--ink-soft);
+  background:var(--paper-deep);
+  padding:.3rem .62rem;
+  border-radius:2px;
+}
+
+.todo{
+  border-left:2px solid var(--flag);
+  padding:.75rem 0 .75rem 1rem;
+  margin:1.2rem 0 0;
+  font-size:.92rem;
+  color:var(--flag);
+  max-width:var(--measure);
+}
+.todo b{font-family:Archivo,sans-serif;font-weight:600;font-size:.82rem}
+
+/* stack */
+
+.stack{display:grid;gap:1.6rem;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))}
+.stack h3{font-size:.88rem;font-weight:600;color:var(--ink-faint);margin:0 0 .45rem}
+.stack p{font-size:.97rem;color:var(--ink);margin:0}
+
+/* path */
+
+.path{border-top:1px solid var(--rule);padding:1.5rem 0 0}
+.path p{color:var(--ink-soft);max-width:var(--measure)}
+
+footer{
+  padding:var(--gap) 0 clamp(3rem,8vh,5rem);
+  margin-top:var(--gap);
+  border-top:1px solid var(--ink);
+}
+footer p{color:var(--ink-soft);max-width:46ch}
+.sig{
+  font-family:Archivo,sans-serif;
+  font-size:.84rem;
+  color:var(--ink-faint);
+  margin-top:2.4rem;
+}
+
+@media (prefers-reduced-motion:reduce){
+  .stages li{opacity:1;animation:none}
+  *{transition:none !important}
+}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <h1>Satyam Srivastava</h1>
+  <p class="lede">I build the rails that move money — <strong>mandate and presentment systems</strong> that have to clear on time, every cycle, or someone's rent doesn't get paid.</p>
+
+  <div class="cycle">
+    <p class="cycle-label">The lifecycle I own, end to end</p>
+    <ul class="stages">
+      <li>Mandate</li>
+      <li>Presentment</li>
+      <li>Debit</li>
+      <li>Settlement</li>
+      <li>Refund</li>
+    </ul>
+  </div>
+  <p class="cycle-note"><b>Zero missed settlement cycles</b> since launch. 99.9% uptime.</p>
+
+  <nav class="links">
+    <a href="mailto:satyams876@gmail.com">satyams876@gmail.com</a>
+    <a href="https://linkedin.com/in/satan74">LinkedIn</a>
+    <!-- TODO: confirm GitHub username -->
+    <a href="https://github.com/satan74">GitHub</a>
+    <!-- TODO: drop the PDF into this repo as resume.pdf -->
+    <a href="resume.pdf">Résumé</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="wrap" id="now">
+  <h2>Now</h2>
+  <div class="role">
+    <div class="role-head">
+      <span class="role-org">Easebuzz</span>
+      <span class="role-meta">SDE-2, Capital &amp; Infrastructure · Pune · since March 2025</span>
+    </div>
+    <div class="col">
+      <p>I sub-own the eNACH platform — the system that lets merchants collect recurring payments by debiting a customer's bank account on a mandate. It launched with one merchant in April 2025. It now carries lakhs of mandates across four sponsor banks, and a legacy migration landed on top of it without losing a record.</p>
+      <p>Most of what I do is make a deadline-bound system boring. NPCI settlement windows don't move. If a presentment file misses one, the money waits a day and the merchant hears about it. So the interesting work is in the failure paths.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="work">
+  <h2>Selected work</h2>
+
+  <article class="entry">
+    <h3>Presentment processing pipeline</h3>
+    <p>End-to-end pipeline in <strong>Django</strong> and <strong>PostgreSQL</strong> covering the full mandate lifecycle, from debit initiation through to settlement. Built to absorb merchant onboarding and a legacy migration without re-architecture — it went from a single merchant to production scale in under a year, and the shape of it didn't change.</p>
+    <ul class="figures">
+      <li>Django · PostgreSQL</li>
+      <li>Lakhs of mandates</li>
+      <li>1.5 L migrated, zero data loss</li>
+    </ul>
+    <div class="todo"><b>TODO —</b> Write 3–4 paragraphs here on the architecture: how state is modelled across the lifecycle, what made the migration safe, what you'd do differently. This is the section a hiring manager actually reads.</div>
+  </article>
+
+  <article class="entry">
+    <h3>Never missing a settlement cycle</h3>
+    <p>Settlement windows are fixed and unforgiving, so the retry mechanism is the part that matters. I designed it end to end. Since launch, <strong>no cycle has been missed</strong>. Uptime sits at 99.9%, with the only planned downtime falling inside a maintenance window when merchant traffic is idle.</p>
+    <p>CPU-intensive jobs run on <strong>AWS Batch</strong> over <strong>Fargate</strong>, scheduled through <strong>EventBridge</strong> and provisioned programmatically with <strong>Boto3</strong>, so heavy work never competes with the application servers for headroom.</p>
+    <ul class="figures">
+      <li>AWS Batch · Fargate</li>
+      <li>EventBridge · Boto3</li>
+      <li>99.9% uptime</li>
+    </ul>
+    <div class="todo"><b>TODO —</b> Describe the retry design: what failures you classify, how backoff and idempotency work, how you avoid double-debits on retry. Keep it at the level of the problem, not the internals.</div>
+  </article>
+
+  <article class="entry">
+    <h3>A refund module the network doesn't provide</h3>
+    <p>NPCI doesn't offer refunds natively on eNACH. Merchants still need them. So we built the capability in-house — I ran the proof of concept, wrote the design document, and drove it through cross-functional review to production.</p>
+    <p>The hard part isn't issuing the refund. It's that a refund has to reason about a debit that may still be in flight, already settled, or partially failed, and it has to stay reconcilable against a network that has no opinion about any of it.</p>
+    <ul class="figures">
+      <li>Design doc · POC · cross-functional</li>
+      <li>Not available upstream</li>
+    </ul>
+    <div class="todo"><b>TODO —</b> Your best interview story — give it the most space. Why the network omits refunds, what you considered and rejected, how partial and failed cases resolve. Stay at problem-and-shape level; leave the internals out.</div>
+  </article>
+
+  <article class="entry">
+    <h3>Multi-bank adapters and bulk processing</h3>
+    <p>Every sponsor bank has its own file formats, timings, and quirks. A configurable adapter framework turned each new bank from a code change into a configuration change, cutting onboarding time by <strong>half</strong> across four live integrations.</p>
+    <p>Alongside it, a distributed bulk presentment pipeline handles <strong>50,000-row files</strong> through concurrent chunk processing and asynchronous job orchestration.</p>
+    <ul class="figures">
+      <li>Configurable adapters</li>
+      <li>4 sponsor banks</li>
+      <li>50k rows per file</li>
+    </ul>
+  </article>
+
+  <article class="entry">
+    <h3>Genie — LLM property matching</h3>
+    <p>At RealBetter I built Genie, a matching tool over <strong>LangChain</strong> and <strong>OpenAI</strong> that smoothed out the property listing flow and grew organic listings around 20% month on month. A companion pipeline turned raw WhatsApp conversations — the way the business actually received its data — into structured, queryable records.</p>
+    <ul class="figures">
+      <li>LangChain · OpenAI</li>
+      <li>~20% monthly listing growth</li>
+    </ul>
+  </article>
+
+  <article class="entry">
+    <h3>Risk monitoring over gRPC</h3>
+    <p>At ThinkBot, a web-based risk monitoring system streaming real-time metrics off Linux server fleets into <strong>MongoDB</strong> over <strong>gRPC</strong>, with the authentication and API layer in Django.</p>
+    <ul class="figures">
+      <li>Python · gRPC · MongoDB</li>
+    </ul>
+  </article>
+</section>
+
+<section class="wrap" id="stack">
+  <h2>Stack</h2>
+  <div class="stack">
+    <div>
+      <h3>Core</h3>
+      <p>Python, Django, DRF, FastAPI, gRPC</p>
+    </div>
+    <div>
+      <h3>Async and scale</h3>
+      <p>Celery, CeleryBeat, AWS Batch, EventBridge, concurrent chunk processing</p>
+    </div>
+    <div>
+      <h3>Data</h3>
+      <p>PostgreSQL, MongoDB, Redis, Elasticsearch, InfluxDB</p>
+    </div>
+    <div>
+      <h3>Infrastructure</h3>
+      <p>AWS (Batch, Fargate, EventBridge, Boto3), Docker, Docker Swarm, Jenkins, Nginx</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="path">
+  <h2>How I got here</h2>
+  <div class="path col">
+    <p>I didn't start in engineering. I spent four years in business development at Byjus and Scaler, leading teams of five to twelve and carrying a revenue number. It taught me what it costs a business when a system is late, which turns out to be a useful thing for an infrastructure engineer to have felt firsthand.</p>
+    <p>In 2022 I left to study full-time at Scaler Academy — data structures, algorithms, systems design — and moved into backend engineering deliberately rather than sideways.</p>
+    <p>B.E. in Computer Science, KLE Dr. M. S. Sheshgiri College of Engineering, Belgaum.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="wrap">
+  <p>Open to backend and infrastructure roles. The fastest way to reach me is email.</p>
+  <nav class="links">
+    <a href="mailto:satyams876@gmail.com">satyams876@gmail.com</a>
+    <a href="https://linkedin.com/in/satan74">LinkedIn</a>
+    <a href="https://github.com/satan74">GitHub</a>
+  </nav>
+  <p class="sig">Pune, India</p>
+</footer>
+
+</body>
+</html>
